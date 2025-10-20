@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Evde Pilatesim - Ürünler</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <header>
+        <h1>Evde Pilatesim</h1>
+        <nav>
+            <ul>
+                <li><a href="index.html">Ana Sayfa</a></li>
+                <li><a href="#products">Ürünler</a></li>
+                <li><a href="#about">Hakkımızda</a></li>
+                <li><a href="#contact">İletişim</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <section id="hero">
+            <h2>Pilates Ekipmanları</h2>
+            <p>Evde pilates yapmak için ihtiyacınız olan tüm ekipmanlar</p>
+        </section>
+
+        <section id="products">
+            <h2>Ürünlerimiz</h2>
+            <div class="product-grid">
+                <!-- Ürünler burada listelenecek -->
+                <div class="product-card">
+                    <img src="images/product1.jpg" alt="Pilates Matı" onclick="showVideos('mat')">
+                    <h3>Pilates Matı</h3>
+                    <p>Kaliteli pilates matı ile konforlu egzersiz</p>
+                </div>
+                
+                <div class="product-card">
+                    <img src="images/product2.jpg" alt="Direnç Bandı" onclick="showVideos('band')">
+                    <h3>Direnç Bandı Seti</h3>
+                    <p>Farklı direnç seviyeleri ile egzersiz</p>
+                </div>
+                
+                <div class="product-card">
+                    <img src="images/product3.jpg" alt="Pilates Topu" onclick="showVideos('ball')">
+                    <h3>Pilates Topu</h3>
+                    <p>Denge ve kas geliştirme için ideal</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="videos" style="display: none;">
+            <h2>Ürün Videoları</h2>
+            <div id="video-container">
+                <!-- Videolar burada gösterilecek -->
+            </div>
+            <button onclick="hideVideos()">Geri Dön</button>
+        </section>
+    </main>
+
+    <footer>
+        <p>&copy; 2023 Evde Pilatesim. Tüm hakları saklıdır.</p>
+    </footer>
+
+    <script src="js/main.js"></script>
+</body>
+</html>
