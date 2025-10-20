@@ -1,191 +1,153 @@
-// Ekranları değiştirme fonksiyonu
-function showProductsScreen() {
-    document.getElementById('products').style.display = 'block';
-    document.getElementById('videos').style.display = 'none';
-    
-    // URL hash'ini temizle
-    window.location.hash = '';
-}
-
-function showVideosScreen() {
-    document.getElementById('products').style.display = 'none';
-    document.getElementById('videos').style.display = 'block';
-}
-
 // Ürün videolarını gösterme fonksiyonu
 function showProductVideos(productType) {
-    const videoTitle = document.getElementById('video-title');
-    const videoContainer = document.getElementById('video-container');
+    // Sayfada modal veya yeni bir bölüm oluşturarak videoları gösterebiliriz
+    alert(`"${getProductName(productType)}" ürünü için videolar gösterilecek. Gerçek uygulamada burada ilgili ürün videoları listelenecektir.`);
     
-    // Önceki videoları temizle
-    videoContainer.innerHTML = '';
-    
-    // Ürün tipine göre başlık ve videoları ayarla
-    let title = '';
-    let videos = [];
-    
-    switch(productType) {
-        case 'mat':
-            title = 'Pilates Matı Videoları';
-            videos = [
-                { 
-                    src: 'videos/mat1.mp4', 
-                    title: 'Pilates Matı Kullanımı - Temel Pozlar'
-                },
-                { 
-                    src: 'videos/mat2.mp4', 
-                    title: 'Pilates Matı ile Karın Egzersizleri'
-                }
-            ];
-            break;
-        case 'band':
-            title = 'Direnç Bandı Videoları';
-            videos = [
-                { 
-                    src: 'videos/band1.mp4', 
-                    title: 'Direnç Bandı ile Üst Vücut Egzersizleri'
-                },
-                { 
-                    src: 'videos/band2.mp4', 
-                    title: 'Direnç Bandı ile Bacak Egzersizleri'
-                }
-            ];
-            break;
-        case 'ball':
-            title = 'Pilates Topu Videoları';
-            videos = [
-                { 
-                    src: 'videos/ball1.mp4', 
-                    title: 'Pilates Topu ile Denge Egzersizleri'
-                },
-                { 
-                    src: 'videos/ball2.mp4', 
-                    title: 'Pilates Topu ile Karın Çalışması'
-                }
-            ];
-            break;
-        default:
-            title = 'Ürün Videoları';
-            videos = [{ 
-                src: 'videos/default.mp4', 
-                title: 'Genel Ürün Tanıtımı'
-            }];
-    }
-    
-    // Başlığı güncelle
-    videoTitle.textContent = title;
-    
-    // Videoları ekle
-    const videoGrid = document.createElement('div');
-    videoGrid.className = 'video-container';
-    
-    videos.forEach(video => {
-        const videoElement = document.createElement('div');
-        videoElement.className = 'video-item';
-        videoElement.innerHTML = `
-            <h3>${video.title}</h3>
-            <video controls width="100%" height="auto">
-                <source src="${video.src}" type="video/mp4">
-                Tarayıcınız video etiketini desteklemiyor.
-            </video>
-        `;
-        videoGrid.appendChild(videoElement);
-    });
-    
-    videoContainer.appendChild(videoGrid);
-    
-    // Ekranları değiştir
-    showVideosScreen();
-    
-    // Sayfanın en üstüne scroll yap
-    window.scrollTo({ top: 0, behavior: 'smooth' });
+    // Alternatif olarak konsola bilgi yazdırabiliriz
+    console.log(`"${getProductName(productType)}" videosu gösteriliyor...`);
 }
 
-// Tüm videoları gösterme fonksiyonu
-function showAllVideos() {
-    const videoTitle = document.getElementById('video-title');
-    const videoContainer = document.getElementById('video-container');
+// Ürün adını döndüren yardımcı fonksiyon
+function getProductName(productType) {
+    switch(productType) {
+        case 'mat':
+            return 'Pilates Matı';
+        case 'band':
+            return 'Direnç Bandı';
+        case 'ball':
+            return 'Pilates Topu';
+        default:
+            return 'Ürün';
+    }
+}
+
+// İletişim formu gönderimi
+document.getElementById('contactForm')?.addEventListener('submit', function(e) {
+    e.preventDefault();
     
-    // Önceki videoları temizle
-    videoContainer.innerHTML = '';
+    // Form verilerini al
+    const formData = new FormData(this);
     
-    // Başlığı güncelle
-    videoTitle.textContent = 'Tüm Ürün Videoları';
+    // Basit doğrulama
+    let isValid = true;
+    const requiredFields = this.querySelectorAll('[required]');
     
-    // Tüm videoları ekle
-    const allVideos = [
-        { 
-            src: 'videos/mat1.mp4', 
-            title: 'Pilates Matı - Temel Pozlar',
-            category: 'Pilates Matı'
-        },
-        { 
-            src: 'videos/mat2.mp4', 
-            title: 'Pilates Matı - Karın Egzersizleri',
-            category: 'Pilates Matı'
-        },
-        { 
-            src: 'videos/band1.mp4', 
-            title: 'Direnç Bandı - Üst Vücut',
-            category: 'Direnç Bandı'
-        },
-        { 
-            src: 'videos/band2.mp4', 
-            title: 'Direnç Bandı - Bacak Egzersizleri',
-            category: 'Direnç Bandı'
-        },
-        { 
-            src: 'videos/ball1.mp4', 
-            title: 'Pilates Topu - Denge Egzersizleri',
-            category: 'Pilates Topu'
-        },
-        { 
-            src: 'videos/ball2.mp4', 
-            title: 'Pilates Topu - Karın Çalışması',
-            category: 'Pilates Topu'
+    requiredFields.forEach(field => {
+        if (!field.value.trim()) {
+            isValid = false;
+            field.style.borderColor = '#e91e63';
+        } else {
+            field.style.borderColor = '#e1e5eb';
         }
-    ];
-    
-    // Videoları kategorilere göre grupla
-    const videoGrid = document.createElement('div');
-    videoGrid.className = 'video-container';
-    
-    allVideos.forEach(video => {
-        const videoElement = document.createElement('div');
-        videoElement.className = 'video-item';
-        videoElement.innerHTML = `
-            <h3>${video.title}</h3>
-            <p><strong>Kategori:</strong> ${video.category}</p>
-            <video controls width="100%" height="auto">
-                <source src="${video.src}" type="video/mp4">
-                Tarayıcınız video etiketini desteklemiyor.
-            </video>
-        `;
-        videoGrid.appendChild(videoElement);
     });
     
-    videoContainer.appendChild(videoGrid);
-    
-    // Ekranları değiştir
-    showVideosScreen();
-    
-    // Sayfanın en üstüne scroll yap
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-}
+    if (isValid) {
+        // Form gönderimi simülasyonu
+        alert('Mesajınız başarıyla gönderildi! En kısa sürede size dönüş yapacağız.');
+        this.reset();
+    } else {
+        alert('Lütfen gerekli alanları doldurun.');
+    }
+});
+
+// Smooth scroll için bağlantıları dinle
+document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+    anchor.addEventListener('click', function (e) {
+        e.preventDefault();
+        
+        const targetId = this.getAttribute('href');
+        if (targetId === '#') return;
+        
+        const targetElement = document.querySelector(targetId);
+        if (targetElement) {
+            targetElement.scrollIntoView({
+                behavior: 'smooth',
+                block: 'start'
+            });
+        }
+    });
+});
+
+// Header scroll efekti
+window.addEventListener('scroll', function() {
+    const header = document.querySelector('header');
+    if (window.scrollY > 100) {
+        header.style.boxShadow = '0 5px 20px rgba(0,0,0,0.1)';
+        header.style.background = 'rgba(102, 126, 234, 0.95)';
+    } else {
+        header.style.boxShadow = '0 2px 20px rgba(0,0,0,0.1)';
+        header.style.background = 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)';
+    }
+});
 
 // Sayfa yüklendiğinde yapılacaklar
 document.addEventListener('DOMContentLoaded', function() {
     console.log('Evde Pilatesim websitesi yüklendi!');
     
-    // Hash değişikliklerini dinle
-    window.addEventListener('hashchange', function() {
-        if (window.location.hash === '#products' || window.location.hash === '') {
-            showProductsScreen();
-        }
-    });
+    // Animasyonları başlat
+    initAnimations();
     
-    // Sayfa yüklendiğinde doğru ekranı göster
-    if (window.location.hash === '#videos') {
-        showVideosScreen();
+    // Mobil menü için event listener (ileride eklenebilir)
+    initMobileMenu();
+});
+
+// Animasyonları başlat
+function initAnimations() {
+    // Ürün kartları için gözlemci oluştur
+    const observerOptions = {
+        threshold: 0.1,
+        rootMargin: '0px 0px -50px 0px'
+    };
+    
+    const observer = new IntersectionObserver(function(entries) {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.style.opacity = '1';
+                entry.target.style.transform = 'translateY(0)';
+            }
+        });
+    }, observerOptions);
+    
+    // Animasyon uygulanacak elementleri seç
+    const animatedElements = document.querySelectorAll('.product-card, .feature-item, .video-card, .testimonial-card');
+    
+    animatedElements.forEach(element => {
+        element.style.opacity = '0';
+        element.style.transform = 'translateY(20px)';
+        element.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+        observer.observe(element);
+    });
+}
+
+// Mobil menü fonksiyonu (ileride geliştirilebilir)
+function initMobileMenu() {
+    // Mobil menü için gerekli kodlar buraya eklenebilir
+    console.log('Mobil menü sistemi başlatıldı');
+}
+
+// Bülten formu gönderimi
+document.querySelector('.newsletter button')?.addEventListener('click', function() {
+    const emailInput = document.querySelector('.newsletter input');
+    const email = emailInput.value.trim();
+    
+    if (email && isValidEmail(email)) {
+        alert('Bülten aboneliğiniz başarıyla oluşturuldu!');
+        emailInput.value = '';
+    } else {
+        alert('Lütfen geçerli bir e-posta adresi girin.');
     }
+});
+
+// E-posta doğrulama fonksiyonu
+function isValidEmail(email) {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return emailRegex.test(email);
+}
+
+// Video kartları için tıklama olayı
+document.querySelectorAll('.video-card').forEach(card => {
+    card.addEventListener('click', function() {
+        const productName = this.querySelector('h3').textContent;
+        alert(`"${productName}" videosu için detaylar gösterilecek. Gerçek uygulamada burada ilgili video oynatıcı açılacaktır.`);
+    });
 });
